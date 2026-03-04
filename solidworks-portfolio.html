@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kavish Mistry — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --sw-chrome:#dce3ec;
+  --sw-chrome2:#c8d2de;
+  --sw-panel:#eef1f5;
+  --sw-panel2:#e4e9f0;
+  --sw-tree:#f8f9fb;
+  --sw-border:#b0bac8;
+  --sw-border2:#cdd5e0;
+  --sw-blue:#0067b8;
+  --sw-blue2:#004f8f;
+  --sw-blue3:#003d70;
+  --sw-sel:#c5ddf5;
+  --sw-sel2:#a8ccee;
+  --sw-hover:#daeaf8;
+  --sw-text:#1a1c20;
+  --sw-text2:#3a4050;
+  --sw-muted:#6a7888;
+  --sw-orange:#c85a08;
+  --sw-green:#1a7a1a;
+  --sw-vp:#b8c8d8;
+  --sw-grid:#a8b8c8;
+  --font:'Segoe UI',Tahoma,Geneva,sans-serif;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:#6a6a6a;font-family:var(--font);font-size:12px;color:var(--sw-text);cursor:default;user-select:none;}
+
+/* ══════════════════════════════════════════════
+   SPLASH — Polished SW-style loading screen
+══════════════════════════════════════════════ */
+#splash{
+  position:fixed;inset:0;z-index:9999;
+  background:linear-gradient(160deg,#0a141e 0%,#0e1c2e 50%,#0a1020 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity 0.7s ease;
+  overflow:hidden;
+}
+#splash.gone{opacity:0;pointer-events:none;}
+
+/* subtle grid */
+#splash::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(0,103,184,0.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,103,184,0.06) 1px,transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;
+}
+/* corner accents */
+#splash::after{
+  content:'';position:absolute;
+  top:32px;left:32px;right:32px;bottom:32px;
+  border:1px solid rgba(0,103,184,0.15);
+  pointer-events:none;
+}
+.sp-corner{position:absolute;width:24px;height:24px;border-color:rgba(0,103,184,0.5);border-style:solid;}
+.sp-c-tl{top:30px;left:30px;border-width:2px 0 0 2px;}
+.sp-c-tr{top:30px;right:30px;border-width:2px 2px 0 0;}
+.sp-c-bl{bottom:30px;left:30px;border-width:0 0 2px 2px;}
+.sp-c-br{bottom:30px;right:30px;border-width:0 2px 2px 0;}
+
+.sp-content{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;}
+
+.sp-sw-logo{
+  display:flex;align-items:baseline;gap:0;
+  margin-bottom:6px;
+}
+.sp-sw-logo .sw-solid{
+  font-size:52px;font-weight:700;color:#e8eef6;
+  letter-spacing:-1px;line-height:1;
+}
+.sp-sw-logo .sw-works{
+  font-size:52px;font-weight:700;
+  color:var(--sw-blue);
+  letter-spacing:-1px;line-height:1;
+}
+.sp-edition{
+  font-size:11px;color:rgba(255,255,255,0.25);
+  letter-spacing:5px;font-weight:400;
+  margin-bottom:2px;
+}
+.sp-year{
+  font-size:13px;color:rgba(255,255,255,0.5);
+  letter-spacing:3px;font-weight:600;
+  margin-bottom:36px;
+}
+.sp-divider{
+  width:340px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,103,184,0.5),transparent);
+  margin-bottom:28px;
+}
+
+/* Progress area */
+.sp-progress-area{width:340px;}
+.sp-prog-header{
+  display:flex;justify-content:space-between;
+  font-size:10px;color:rgba(255,255,255,0.22);
+  letter-spacing:1px;margin-bottom:7px;
+  font-weight:600;
+}
+.sp-track{
+  width:100%;height:2px;
+  background:rgba(255,255,255,0.06);
+  border-radius:1px;overflow:hidden;
+  margin-bottom:14px;
+}
+.sp-fill{
+  height:100%;
+  background:linear-gradient(90deg,#0048a0,#0090e0);
+  width:0%;border-radius:1px;
+  transition:width 0.12s linear;
+  box-shadow:0 0 8px rgba(0,144,224,0.6);
+}
+.sp-msg{font-size:10px;color:rgba(255,255,255,0.2);letter-spacing:1px;height:14px;font-weight:400;}
+
+.sp-footer{
+  position:absolute;bottom:48px;
+  font-size:9px;color:rgba(255,255,255,0.1);
+  letter-spacing:2px;
+}
+
+/* ══════════════════════════════════════════════
+   APP SHELL
+══════════════════════════════════════════════ */
+#app{width:100%;height:100%;display:flex;flex-direction:column;background:var(--sw-chrome);}
+
+/* ══════════════════════════════════════════════
+   TITLE BAR — mimics SW window chrome
+══════════════════════════════════════════════ */
+#titlebar{
+  height:30px;
+  background:linear-gradient(180deg,#3a6ea8 0%,#2a5890 100%);
+  display:flex;align-items:center;padding:0 10px;gap:0;
+  flex-shrink:0;
+  box-shadow:0 1px 3px rgba(0,0,0,0.4);
+}
+#titlebar .tb-icon{font-size:14px;margin-right:8px;}
+#titlebar .tb-title{
+  font-size:12px;font-weight:600;color:#e8f0f8;
+  flex:1;letter-spacing:0.2px;
+}
+.tb-winbtn{
+  width:26px;height:20px;border-radius:2px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:rgba(255,255,255,0.7);
+  cursor:pointer;margin-left:2px;
+  border:1px solid rgba(255,255,255,0.15);
+  background:rgba(255,255,255,0.08);
+}
+.tb-winbtn:hover{background:rgba(255,255,255,0.18);}
+.tb-winbtn.close:hover{background:#c42b1c;}
+
+/* ══════════════════════════════════════════════
+   MENU BAR
+══════════════════════════════════════════════ */
+#menubar{
+  height:22px;
+  background:linear-gradient(180deg,var(--sw-chrome) 0%,var(--sw-chrome2) 100%);
+  border-bottom:1px solid var(--sw-border);
+  display:flex;align-items:center;padding:0 4px;
+  flex-shrink:0;
+}
+.mbi{
+  padding:2px 10px;font-size:12px;cursor:pointer;
+  color:var(--sw-text2);border-radius:2px;
+}
+.mbi:hover{background:var(--sw-blue);color:#fff;}
+
+/* ══════════════════════════════════════════════
+   COMMAND MANAGER — SW ribbon tabs + tools
+══════════════════════════════════════════════ */
+#cmdmgr{
+  background:linear-gradient(180deg,var(--sw-chrome) 0%,var(--sw-panel2) 100%);
+  border-bottom:2px solid var(--sw-border);
+  flex-shrink:0;
+}
+#cmd-tabs{
+  display:flex;padding:0 6px;
+  border-bottom:1px solid var(--sw-border2);
+  background:var(--sw-chrome2);
+}
+.ct{
+  padding:4px 14px;font-size:11px;font-weight:600;
+  cursor:pointer;color:var(--sw-muted);
+  border:1px solid transparent;border-bottom:none;
+  border-radius:4px 4px 0 0;margin-bottom:-1px;
+  background:transparent;
+}
+.ct.on{
+  background:var(--sw-panel);
+  border-color:var(--sw-border) var(--sw-border) var(--sw-panel);
+  color:var(--sw-blue2);
+}
+.ct:hover:not(.on){background:rgba(255,255,255,0.4);color:var(--sw-blue);}
+
+#cmd-tools{
+  display:flex;align-items:center;
+  padding:4px 8px;gap:2px;
+  min-height:52px;
+}
+.cg{
+  display:flex;align-items:center;gap:1px;
+  padding:0 8px;
+  border-right:1px solid var(--sw-border2);
+}
+.cg:last-child{border-right:none;}
+.cg-label{
+  font-size:9px;color:var(--sw-muted);
+  text-align:center;width:100%;
+  margin-top:2px;letter-spacing:0.5px;
+}
+.ctool{
+  display:flex;flex-direction:column;align-items:center;
+  padding:4px 6px;border-radius:3px;cursor:pointer;
+  gap:2px;min-width:44px;
+  border:1px solid transparent;
+  transition:all 0.1s;
+}
+.ctool:hover{background:var(--sw-sel);border-color:var(--sw-blue);}
+.ctool .ci{font-size:20px;line-height:1;}
+.ctool .cl{font-size:9px;color:var(--sw-muted);white-space:nowrap;text-align:center;}
+.ctool-sm{
+  display:flex;align-items:center;gap:5px;
+  padding:4px 8px;border-radius:3px;cursor:pointer;
+  font-size:11px;font-weight:600;color:var(--sw-text2);
+  border:1px solid transparent;
+  white-space:nowrap;
+}
+.ctool-sm:hover{background:var(--sw-sel);border-color:var(--sw-blue);}
+.ctool-sm .ci{font-size:15px;}
+
+/* ══════════════════════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════════════════════ */
+#main{flex:1;display:flex;overflow:hidden;}
+
+/* ══════════════════════════════════════════════
+   LEFT PANEL — FeatureManager
+══════════════════════════════════════════════ */
+#left-panel{
+  width:218px;flex-shrink:0;
+  background:var(--sw-tree);
+  border-right:1px solid var(--sw-border);
+  display:flex;flex-direction:column;
+}
+
+/* Panel tab strip (FM / PM / Config / Appearance) */
+#panel-tabs{
+  display:flex;height:28px;
+  background:var(--sw-chrome2);
+  border-bottom:1px solid var(--sw-border);
+}
+.ptab{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  font-size:12px;cursor:pointer;
+  color:var(--sw-muted);
+  border-right:1px solid var(--sw-border2);
+  transition:background 0.1s;
+}
+.ptab:last-child{border-right:none;}
+.ptab.on{background:var(--sw-panel);color:var(--sw-blue2);}
+.ptab:hover:not(.on){background:var(--sw-hover);}
+
+/* Panel header */
+#panel-hdr{
+  background:linear-gradient(180deg,#d8e6f4 0%,#c4d6ec 100%);
+  border-bottom:1px solid var(--sw-border);
+  padding:5px 10px;
+  display:flex;align-items:center;gap:6px;
+}
+#panel-hdr .ph-icon{font-size:14px;}
+#panel-hdr .ph-text{font-size:11px;font-weight:700;color:var(--sw-blue3);}
+#panel-hdr .ph-file{font-size:9px;color:var(--sw-muted);margin-left:auto;}
+
+/* Search bar (SW has one) */
+#tree-search{
+  padding:4px 8px;border-bottom:1px solid var(--sw-border2);
+  background:var(--sw-panel2);display:flex;align-items:center;gap:5px;
+}
+#tree-search input{
+  flex:1;border:1px solid var(--sw-border);border-radius:2px;
+  padding:2px 6px;font-size:11px;font-family:var(--font);
+  background:#fff;color:var(--sw-text);outline:none;
+}
+#tree-search input:focus{border-color:var(--sw-blue);}
+#tree-search .si{font-size:12px;color:var(--sw-muted);}
+
+/* Tree scroll */
+#tree-scroll{flex:1;overflow-y:auto;padding:2px 0;}
+#tree-scroll::-webkit-scrollbar{width:8px;}
+#tree-scroll::-webkit-scrollbar-track{background:var(--sw-tree);}
+#tree-scroll::-webkit-scrollbar-thumb{background:var(--sw-border2);border-radius:3px;border:1px solid var(--sw-tree);}
+
+/* Tree items */
+.ti{
+  display:flex;align-items:center;
+  padding:3px 6px 3px 0;cursor:pointer;
+  position:relative;
+}
+.ti:hover{background:var(--sw-hover);}
+.ti.on{background:var(--sw-sel);}
+.ti.on::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--sw-blue);}
+.t-pad{width:12px;flex-shrink:0;}
+.t-arr{
+  width:14px;height:14px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;color:#888;transition:transform 0.15s;
+}
+.t-arr.open{transform:rotate(90deg);}
+/* SW-style folder icon */
+.t-ic{font-size:14px;margin:0 3px 0 1px;flex-shrink:0;}
+.t-lbl{font-size:12px;color:var(--sw-text);flex:1;letter-spacing:-0.1px;}
+.t-badge{
+  font-size:9px;background:var(--sw-blue2);color:#fff;
+  padding:1px 5px;border-radius:8px;margin-left:3px;
+  font-weight:700;
+}
+.tc{display:none;}
+.tc.open{display:block;}
+.t-hr{height:1px;background:var(--sw-border2);margin:3px 6px;}
+
+/* Origin / mates divider */
+.tree-origin{
+  display:flex;align-items:center;padding:2px 6px 2px 28px;
+  font-size:11px;color:var(--sw-muted);gap:4px;
+}
+
+/* ══════════════════════════════════════════════
+   VIEWPORT
+══════════════════════════════════════════════ */
+#viewport{
+  flex:1;position:relative;overflow:hidden;
+  background:var(--sw-vp);
+}
+
+/* SW-style viewport background with perspective grid */
+#vp-bg{
+  position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse at 50% 45%, #c8d8e8 0%, #aabccc 60%, #98aabb 100%);
+}
+#vp-grid{
+  position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    linear-gradient(rgba(80,100,120,0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(80,100,120,0.18) 1px, transparent 1px);
+  background-size:50px 50px;
+}
+/* Ground plane effect */
+#vp-ground{
+  position:absolute;bottom:0;left:0;right:0;height:35%;pointer-events:none;z-index:0;
+  background:linear-gradient(180deg,transparent 0%,rgba(80,96,112,0.12) 100%);
+}
+
+/* ViewCube — proper SW one */
+#viewcube{
+  position:absolute;top:50px;right:14px;z-index:20;
+  width:86px;height:86px;
+}
+.vc-wrap{position:relative;width:86px;height:86px;}
+.vc-face{
+  position:absolute;
+  background:linear-gradient(135deg,rgba(210,224,240,0.92),rgba(180,200,224,0.92));
+  border:1px solid rgba(100,140,180,0.6);
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:700;color:#3a5a80;
+  cursor:pointer;letter-spacing:0.5px;
+  transition:background 0.15s;
+}
+.vc-face:hover{background:rgba(200,224,248,0.98);}
+.vc-top {width:44px;height:22px;top:0;left:21px;transform:skewX(-28deg);}
+.vc-front{width:44px;height:44px;top:22px;left:0;border-top:none;}
+.vc-right{width:44px;height:44px;top:22px;left:44px;transform:skewY(-28deg);border-left:none;border-top:none;}
+.vc-home{
+  position:absolute;bottom:-20px;right:0;
+  font-size:16px;cursor:pointer;color:rgba(60,100,140,0.6);
+  background:none;border:none;
+}
+.vc-home:hover{color:var(--sw-blue);}
+
+/* Viewport top toolbar — SW heads-up toolbar */
+#vp-hud{
+  position:absolute;top:0;left:0;right:0;height:28px;z-index:10;
+  background:linear-gradient(180deg,rgba(210,222,236,0.97) 0%,rgba(195,210,228,0.97) 100%);
+  border-bottom:1px solid rgba(150,170,195,0.7);
+  display:flex;align-items:center;padding:0 8px;gap:4px;
+}
+.hud-btn{
+  padding:2px 9px;font-size:11px;cursor:pointer;
+  border-radius:2px;border:1px solid transparent;
+  color:var(--sw-text2);display:flex;align-items:center;gap:3px;
+}
+.hud-btn:hover{background:rgba(255,255,255,0.6);border-color:var(--sw-border);}
+.hud-sep{width:1px;height:16px;background:var(--sw-border2);margin:0 3px;}
+.hud-mode{
+  margin-left:auto;font-size:10px;color:var(--sw-muted);
+  font-style:italic;letter-spacing:0.2px;
+}
+
+/* Reference triads */
+#triad{
+  position:absolute;bottom:48px;left:16px;z-index:10;
+  width:60px;height:60px;
+}
+
+/* Plane container */
+#plane-area{
+  position:absolute;inset:28px 0 22px 0;
+  display:flex;align-items:center;justify-content:center;
+  z-index:1;
+}
+
+/* SVG transitions */
+#plane-svg{overflow:visible;transition:filter 0.1s;}
+.ppart{transition:filter 0.45s ease, opacity 0.45s ease;}
+.ppart.hl{filter:drop-shadow(0 0 5px #ffc040) drop-shadow(0 0 16px #ff9000) brightness(1.12);}
+.ppart.dim{opacity:0.15;filter:brightness(0.7);}
+
+/* ══════════════════════════════════════════════
+   INFO WINDOW — SW PropertyManager style
+══════════════════════════════════════════════ */
+#iw{
+  position:absolute;z-index:60;display:none;flex-direction:column;
+  background:var(--sw-panel);
+  border:1px solid var(--sw-border);
+  box-shadow:2px 4px 20px rgba(0,30,70,0.22);
+  width:310px;border-radius:2px;
+  top:40px;left:228px;
+}
+#iw.show{display:flex;}
+/* SW PropertyManager title bar */
+#iw-tb{
+  background:linear-gradient(180deg,#2e6daa 0%,#1a5490 100%);
+  padding:5px 8px;display:flex;align-items:center;gap:6px;
+  cursor:grab;border-radius:2px 2px 0 0;
+}
+#iw-tb:active{cursor:grabbing;}
+#iw-icon{font-size:14px;}
+#iw-title{color:#e8f0f8;font-weight:700;font-size:12px;flex:1;}
+/* SW PM buttons */
+.pm-hdr-btn{
+  width:18px;height:18px;border-radius:2px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:10px;
+  background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.8);
+  border:1px solid rgba(255,255,255,0.15);
+}
+.pm-hdr-btn:hover{background:rgba(255,255,255,0.25);}
+.pm-hdr-btn.x:hover{background:#c42b1c;border-color:#c42b1c;}
+
+/* Green/red accept/cancel strip — just like SW PM */
+#iw-actions{
+  background:#e8edf2;border-bottom:1px solid var(--sw-border2);
+  display:flex;padding:3px 8px;gap:4px;
+}
+.pm-action{
+  display:flex;align-items:center;gap:3px;padding:2px 8px;
+  border-radius:2px;font-size:11px;cursor:pointer;font-weight:600;
+  border:1px solid transparent;
+}
+.pm-ok{background:#e8f4e8;color:#1a6a1a;border-color:#a8d8a8;}
+.pm-ok:hover{background:#d0ecd0;}
+.pm-cancel{background:#f8e8e8;color:#8a1a1a;border-color:#e0a8a8;}
+.pm-cancel:hover{background:#f0d0d0;}
+
+#iw-body{
+  padding:0;overflow-y:auto;max-height:400px;font-size:12px;
+}
+#iw-body::-webkit-scrollbar{width:7px;}
+#iw-body::-webkit-scrollbar-track{background:var(--sw-tree);}
+#iw-body::-webkit-scrollbar-thumb{background:var(--sw-border2);border-radius:3px;}
+
+/* PM section accordion */
+.pm-sec{border-bottom:1px solid var(--sw-border2);}
+.pm-sec-hdr{
+  background:linear-gradient(180deg,#d8e6f4 0%,#c8d8ec 100%);
+  padding:5px 10px;display:flex;align-items:center;gap:6px;
+  cursor:pointer;font-size:11px;font-weight:700;color:var(--sw-blue3);
+  border-bottom:1px solid var(--sw-border2);
+}
+.pm-sec-hdr .sec-arrow{font-size:8px;color:#888;transition:transform 0.15s;}
+.pm-sec-hdr .sec-arrow.open{transform:rotate(90deg);}
+.pm-sec-body{background:#fff;padding:10px 12px;font-size:11px;line-height:1.75;}
+
+/* PM field rows */
+.pm-row{display:flex;align-items:baseline;gap:8px;margin-bottom:5px;}
+.pm-k{
+  color:var(--sw-muted);min-width:88px;font-size:11px;flex-shrink:0;
+  display:flex;align-items:center;gap:4px;
+}
+.pm-k .field-icon{font-size:10px;}
+.pm-v{color:var(--sw-text);font-size:11px;font-weight:600;}
+.pm-p{font-size:11px;color:#3a4050;line-height:1.8;margin-bottom:8px;}
+.pm-link{color:var(--sw-blue);text-decoration:underline;cursor:pointer;font-size:11px;}
+
+/* Tags / chips */
+.tag{
+  display:inline-flex;align-items:center;
+  background:var(--sw-blue);color:#fff;
+  font-size:9px;font-weight:700;padding:2px 7px;
+  border-radius:2px;margin:2px 2px 0 0;letter-spacing:0.3px;
+}
+.tag.grey{background:#607080;}
+.tag.green{background:#1a7a1a;}
+
+/* Skill bars — SW measurement style */
+.sk-row{margin-bottom:7px;}
+.sk-top{display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px;}
+.sk-name{color:var(--sw-text2);}
+.sk-pct{color:var(--sw-blue2);font-weight:700;}
+.sk-bar{
+  height:8px;background:var(--sw-panel2);
+  border-radius:1px;overflow:hidden;
+  border:1px solid var(--sw-border);
+}
+.sk-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--sw-blue3),var(--sw-blue));
+  border-radius:1px;
+}
+
+/* Part label callouts */
+.part-callout{
+  position:absolute;pointer-events:none;z-index:5;
+  font-size:10px;font-weight:700;color:var(--sw-blue2);
+  background:rgba(240,248,255,0.92);padding:2px 8px;
+  border:1px solid var(--sw-blue);border-radius:2px;
+  opacity:0;transition:opacity 0.3s;
+  box-shadow:0 1px 4px rgba(0,50,120,0.15);
+  white-space:nowrap;letter-spacing:0.3px;
+}
+.part-callout.show{opacity:1;}
+
+/* ══════════════════════════════════════════════
+   STATUS BAR
+══════════════════════════════════════════════ */
+#statusbar{
+  height:22px;
+  background:linear-gradient(180deg,var(--sw-chrome) 0%,var(--sw-chrome2) 100%);
+  border-top:1px solid var(--sw-border);
+  display:flex;align-items:center;padding:0 10px;gap:0;
+  flex-shrink:0;font-size:10px;
+}
+.sb-seg{
+  padding:0 12px;color:var(--sw-muted);
+  border-right:1px solid var(--sw-border2);height:100%;
+  display:flex;align-items:center;gap:5px;
+}
+.sb-seg:last-child{border-right:none;}
+.sb-dot{width:7px;height:7px;border-radius:50%;}
+.sb-ok{background:#28a028;}
+.sb-info{background:var(--sw-blue);}
+.sb-warn{background:#e08020;}
+#sb-right{margin-left:auto;padding-right:0;}
+
+/* Dimension annotation lines */
+.dim-line{stroke:var(--sw-orange);stroke-width:0.8;}
+.dim-text{font-family:var(--font);font-size:10px;fill:var(--sw-orange);}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     SPLASH
+══════════════════════════════════════════ -->
+<div id="splash">
+  <div class="sp-corner sp-c-tl"></div>
+  <div class="sp-corner sp-c-tr"></div>
+  <div class="sp-corner sp-c-bl"></div>
+  <div class="sp-corner sp-c-br"></div>
+
+  <div class="sp-content">
+    <div class="sp-sw-logo">
+      <span class="sw-solid">Solid</span><span class="sw-works">Works</span>
+    </div>
+    <div class="sp-edition">PORTFOLIO EDITION</div>
+    <div class="sp-year">2025</div>
+    <div class="sp-divider"></div>
+    <div class="sp-progress-area">
+      <div class="sp-prog-header">
+        <span>LOADING ASSEMBLY</span>
+        <span id="sp-pct">0%</span>
+      </div>
+      <div class="sp-track"><div class="sp-fill" id="sp-fill"></div></div>
+      <div class="sp-msg" id="sp-msg">Initialising geometry kernel...</div>
+    </div>
+  </div>
+  <div class="sp-footer">KAVISH MISTRY · UNIVERSITY OF ILLINOIS URBANA-CHAMPAIGN · MECHANICAL ENGINEERING</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     APP
+══════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- TITLE BAR -->
+  <div id="titlebar">
+    <span class="tb-icon">⚙</span>
+    <span class="tb-title">Kavish_Mistry_Portfolio.SLDASM — SolidWorks Premium 2025 x64 Edition SP0.0</span>
+    <div class="tb-winbtn">─</div>
+    <div class="tb-winbtn">□</div>
+    <div class="tb-winbtn close">✕</div>
+  </div>
+
+  <!-- MENU BAR -->
+  <div id="menubar">
+    <div class="mbi">File</div>
+    <div class="mbi">Edit</div>
+    <div class="mbi">View</div>
+    <div class="mbi">Insert</div>
+    <div class="mbi">Tools</div>
+    <div class="mbi">Simulation</div>
+    <div class="mbi">Window</div>
+    <div class="mbi">Help</div>
+  </div>
+
+  <!-- COMMAND MANAGER -->
+  <div id="cmdmgr">
+    <div id="cmd-tabs">
+      <div class="ct on">Features</div>
+      <div class="ct">Sketch</div>
+      <div class="ct">Surfaces</div>
+      <div class="ct">Sheet Metal</div>
+      <div class="ct">Evaluate</div>
+      <div class="ct">SOLIDWORKS Add-Ins</div>
+      <div class="ct" style="color:var(--sw-orange);font-weight:700">⚡ Portfolio</div>
+    </div>
+    <div id="cmd-tools">
+      <div class="cg">
+        <div class="ctool"><span class="ci">📐</span><span class="cl">Extruded<br>Boss/Base</span></div>
+        <div class="ctool"><span class="ci">🔄</span><span class="cl">Revolved<br>Boss</span></div>
+        <div class="ctool"><span class="ci">⬆</span><span class="cl">Lofted<br>Boss</span></div>
+        <div class="ctool"><span class="ci">🌊</span><span class="cl">Swept<br>Boss</span></div>
+      </div>
+      <div class="cg">
+        <div class="ctool"><span class="ci">✂</span><span class="cl">Extruded<br>Cut</span></div>
+        <div class="ctool"><span class="ci">🔩</span><span class="cl">Fillet</span></div>
+        <div class="ctool"><span class="ci">📏</span><span class="cl">Chamfer</span></div>
+        <div class="ctool"><span class="ci">🔁</span><span class="cl">Shell</span></div>
+      </div>
+      <div class="cg">
+        <div class="ctool"><span class="ci">⚙</span><span class="cl">Linear<br>Pattern</span></div>
+        <div class="ctool"><span class="ci">🔃</span><span class="cl">Mirror</span></div>
+      </div>
+      <div class="cg" style="border-right:none;">
+        <div class="ctool-sm" onclick="openSec('about','fuselage')"><span class="ci">👤</span>About</div>
+        <div class="ctool-sm" onclick="openSec('projects','fuselage')"><span class="ci">📁</span>Projects</div>
+        <div class="ctool-sm" onclick="openSec('skills','wing-l')"><span class="ci">⚙</span>Skills</div>
+        <div class="ctool-sm" onclick="openSec('contact','tail')"><span class="ci">📬</span>Contact</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div id="main">
+
+    <!-- LEFT PANEL -->
+    <div id="left-panel">
+      <div id="panel-tabs">
+        <div class="ptab on" title="FeatureManager">📋</div>
+        <div class="ptab" title="PropertyManager">⚙</div>
+        <div class="ptab" title="ConfigurationManager">🔧</div>
+        <div class="ptab" title="Appearances">🎨</div>
+      </div>
+      <div id="panel-hdr">
+        <span class="ph-icon">📋</span>
+        <span class="ph-text">FeatureManager Design Tree</span>
+        <span class="ph-file">.SLDASM</span>
+      </div>
+      <div id="tree-search">
+        <span class="si">🔍</span>
+        <input type="text" placeholder="Search features..."/>
+      </div>
+
+      <div id="tree-scroll">
+        <!-- ROOT PART -->
+        <div class="ti on" onclick="openSec('about','fuselage')">
+          <div class="t-pad"></div><div class="t-arr open">▶</div>
+          <div class="t-ic">✈</div>
+          <div class="t-lbl">Kavish_Mistry</div>
+        </div>
+        <div class="tree-origin">📍 Origin</div>
+        <div class="t-hr"></div>
+
+        <!-- EDUCATION -->
+        <div class="ti" onclick="toggleB('edu');openSec('education','cockpit')">
+          <div class="t-pad"></div><div class="t-arr" id="arr-edu">▶</div>
+          <div class="t-ic">🎓</div><div class="t-lbl">Education</div>
+        </div>
+        <div class="tc" id="tc-edu">
+          <div class="ti" onclick="openSec('edu-uiuc','cockpit')">
+            <div class="t-pad"></div><div class="t-pad"></div><div class="t-arr"></div>
+            <div class="t-ic">🏛</div><div class="t-lbl">UIUC — B.S. MechEng</div>
+          </div>
+        </div>
+        <div class="t-hr"></div>
+
+        <!-- EXPERIENCE -->
+        <div class="ti" onclick="toggleB('exp');openSec('exp','engines')">
+          <div class="t-pad"></div><div class="t-arr" id="arr-exp">▶</div>
+          <div class="t-ic">🏢</div><div class="t-lbl">Experience</div>
+          <div class="t-badge">4</div>
+        </div>
+        <div class="tc" id="tc-exp">
+          <div class="ti" onclick="openSec('exp-research','engines')">
+            <div class="t-pad"></div><div class="t-pad"></div><div class="t-arr"></div>
+            <div class="t-ic">🔬</div><div class="t-lbl">Research Intern</div>
+          </div>
+          <div class="ti" onclick="openSec('exp-ibc','cockpit')">
+            <div class="t-pad"></div><div class="t-pad"></div><div class="t-arr"></div>
+            <div class="t-ic">📊</div><div class="t-lbl">Illinois Business Consulting</div>
+          </div>
+          <div class="ti" onclick="openSec('exp-bikers','engines')">
+            <div class="t-pad"></div><div class="t-pad"></div><div class="t-arr"></div>
+            <div class="t-ic">🔧</div><div class="t-lbl">Biker's Pad — Trainee</div>
+          </div>
+          <div class="ti" onclick="openSec('exp-zero2one','fuselage')">
+            <div class="t-pad"></div><div class="t-pad"></div><div class="t-arr"></div>
+            <div class="t-ic">🚀</div><div class="t-lbl">Zero2One Cohort</div>
+          </div>
+        </div>
+        <div class="t-hr"></div>
+
+        <!-- PROJECTS -->
+        <div class="ti" onclick="toggleB('proj');openSec('projects','fuselage')">
+          <div class="t-pad"></div><div class="t-arr" id="arr-proj">▶</div>
+          <div class="t-ic">📁</div><div class="t-lbl">Projects</div>
+          <div class="t-badge">2</div>
+        </div>
+        <div class="tc" id="tc-proj">
+          <div class="ti" onclick="openSec('proj-ssdc','wing-l')">
+            <div class="t-pad"></div><div class="t-pad"></div><div class="t-arr"></div>
+            <div class="t-ic">🛸</div><div class="t-lbl">Team Ignite — SSDC</div>
+          </div>
+          <div class="ti" onclick="openSec('proj-lunabotics','landing-gear')">
+            <div class="t-pad"></div><div class="t-pad"></div><div class="t-arr"></div>
+            <div class="t-ic">🌑</div><div class="t-lbl">IRIS Lunabotics</div>
+          </div>
+        </div>
+        <div class="t-hr"></div>
+
+        <!-- SKILLS -->
+        <div class="ti" onclick="toggleB('skills');openSec('skills','wing-l')">
+          <div class="t-pad"></div><div class="t-arr" id="arr-skills">▶</div>
+          <div class="t-ic">⚙</div><div class="t-lbl">Skills & Tools</div>
+        </div>
+        <div class="tc" id="tc-skills">
+          <div class="ti" onclick="openSec('skills-cad','wing-l')">
+            <div class="t-pad"></div><div class="t-pad"></div><div class="t-arr"></div>
+            <div class="t-ic">📐</div><div class="t-lbl">CAD Software</div>
+          </div>
+          <div class="ti" onclick="openSec('skills-comp','engines')">
+            <div class="t-pad"></div><div class="t-pad"></div><div class="t-arr"></div>
+            <div class="t-ic">💻</div><div class="t-lbl">Computation</div>
+          </div>
+          <div class="ti" onclick="openSec('skills-courses','fuselage')">
+            <div class="t-pad"></div><div class="t-pad"></div><div class="t-arr"></div>
+            <div class="t-ic">📚</div><div class="t-lbl">Coursework</div>
+          </div>
+        </div>
+        <div class="t-hr"></div>
+
+        <!-- CONTACT -->
+        <div class="ti" onclick="openSec('contact','tail')">
+          <div class="t-pad"></div><div class="t-arr"></div>
+          <div class="t-ic">📬</div><div class="t-lbl">Contact</div>
+        </div>
+
+      </div><!-- /tree-scroll -->
+    </div><!-- /left-panel -->
+
+    <!-- VIEWPORT -->
+    <div id="viewport">
+      <div id="vp-bg"></div>
+      <div id="vp-grid"></div>
+      <div id="vp-ground"></div>
+
+      <!-- Heads-up toolbar -->
+      <div id="vp-hud">
+        <div class="hud-btn" onclick="clearHL()">🔎 Zoom/Pan</div>
+        <div class="hud-btn" onclick="clearHL()">↺ Fit to Screen</div>
+        <div class="hud-sep"></div>
+        <div class="hud-btn">▣ Shaded</div>
+        <div class="hud-btn" id="hud-edges" onclick="toggleEdges()">⊡ Edges On</div>
+        <div class="hud-btn">⊙ Section View</div>
+        <div class="hud-sep"></div>
+        <div class="hud-btn" style="color:var(--sw-orange);font-weight:700" onclick="runSim()">▶ Motion Study</div>
+        <div class="hud-mode" id="hud-mode">*Trimetric — Shaded with Edges</div>
+      </div>
+
+      <!-- ViewCube -->
+      <div id="viewcube">
+        <div class="vc-wrap">
+          <div class="vc-face vc-top">TOP</div>
+          <div class="vc-face vc-front">FRONT</div>
+          <div class="vc-face vc-right">RIGHT</div>
+        </div>
+        <button class="vc-home" onclick="clearHL()" title="Home view">⌂</button>
+      </div>
+
+      <!-- Origin triad -->
+      <svg id="triad" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <line x1="30" y1="30" x2="55" y2="30" stroke="red" stroke-width="2"/>
+        <polygon points="55,28 60,30 55,32" fill="red"/>
+        <text x="56" y="27" font-size="9" fill="red" font-family="Tahoma">X</text>
+        <line x1="30" y1="30" x2="30" y2="5" stroke="#22aa22" stroke-width="2"/>
+        <polygon points="28,5 30,0 32,5" fill="#22aa22"/>
+        <text x="33" y="8" font-size="9" fill="#22aa22" font-family="Tahoma">Y</text>
+        <line x1="30" y1="30" x2="10" y2="50" stroke="#4488ff" stroke-width="2"/>
+        <polygon points="8,48 8,53 13,52" fill="#4488ff"/>
+        <text x="4" y="58" font-size="9" fill="#4488ff" font-family="Tahoma">Z</text>
+        <circle cx="30" cy="30" r="3" fill="#888"/>
+      </svg>
+
+      <!-- PLANE SVG — proper 3D isometric 737-style aircraft -->
+      <div id="plane-area">
+        <svg id="plane-svg" viewBox="0 0 1000 460" width="960" height="440"
+             xmlns="http://www.w3.org/2000/svg" overflow="visible">
+          <defs>
+            <!-- 3D fuselage gradients — simulate cylinder shading -->
+            <linearGradient id="gFusTop" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f2f4f6"/>
+              <stop offset="18%" stop-color="#ececec"/>
+              <stop offset="55%" stop-color="#d8d8d8"/>
+              <stop offset="80%" stop-color="#c0c0c0"/>
+              <stop offset="100%" stop-color="#a8a8a8"/>
+            </linearGradient>
+            <linearGradient id="gFusBot" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#b8b8b8"/>
+              <stop offset="100%" stop-color="#888"/>
+            </linearGradient>
+            <linearGradient id="gFusSide" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#d0d8e4"/>
+              <stop offset="40%" stop-color="#c8d0dc"/>
+              <stop offset="100%" stop-color="#a0a8b4"/>
+            </linearGradient>
+            <!-- Wing — thin aerofoil cross-section look -->
+            <linearGradient id="gWing" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#e0e4ea"/>
+              <stop offset="35%" stop-color="#c8ccd4"/>
+              <stop offset="100%" stop-color="#9098a4"/>
+            </linearGradient>
+            <linearGradient id="gWingU" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#e8ecf2"/>
+              <stop offset="100%" stop-color="#b0b8c4"/>
+            </linearGradient>
+            <!-- Engine nacelle -->
+            <linearGradient id="gEng" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#d0d8e4"/>
+              <stop offset="30%" stop-color="#a8b0bc"/>
+              <stop offset="65%" stop-color="#787f8a"/>
+              <stop offset="100%" stop-color="#505860"/>
+            </linearGradient>
+            <radialGradient id="gEngInlet" cx="45%" cy="42%" r="55%">
+              <stop offset="0%" stop-color="#606870"/>
+              <stop offset="60%" stop-color="#303840"/>
+              <stop offset="100%" stop-color="#181c20"/>
+            </radialGradient>
+            <!-- Vertical tail — dark livery -->
+            <linearGradient id="gTailV" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#282828"/>
+              <stop offset="40%" stop-color="#1e1e1e"/>
+              <stop offset="100%" stop-color="#141414"/>
+            </linearGradient>
+            <!-- Cockpit glass -->
+            <linearGradient id="gGlass" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#6898c0" stop-opacity="0.9"/>
+              <stop offset="50%" stop-color="#4878a8" stop-opacity="0.85"/>
+              <stop offset="100%" stop-color="#2a5888" stop-opacity="0.9"/>
+            </linearGradient>
+            <!-- Wheel/tire -->
+            <radialGradient id="gTire" cx="45%" cy="38%" r="58%">
+              <stop offset="0%" stop-color="#484848"/>
+              <stop offset="100%" stop-color="#181818"/>
+            </radialGradient>
+            <!-- Gear strut -->
+            <linearGradient id="gStrut" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#b0b8c4"/>
+              <stop offset="100%" stop-color="#808890"/>
+            </linearGradient>
+
+            <!-- Drop shadow filter -->
+            <filter id="fShadow" x="-8%" y="-8%" width="120%" height="140%">
+              <feDropShadow dx="6" dy="16" stdDeviation="18" flood-color="rgba(0,0,0,0.28)"/>
+            </filter>
+            <!-- Highlight glow -->
+            <filter id="fHl" x="-20%" y="-20%" width="140%" height="150%">
+              <feColorMatrix type="matrix" values="
+                1.1 0.4 0   0 0.1
+                0.7 0.9 0   0 0.08
+                0   0   0.2 0 0
+                0   0   0   1 0"/>
+              <feGaussianBlur stdDeviation="4" result="glow"/>
+              <feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Ground shadow ellipse -->
+          <ellipse cx="490" cy="432" rx="420" ry="18" fill="rgba(0,0,0,0.15)"/>
+
+          <g filter="url(#fShadow)">
+
+            <!-- ══════ FAR WING (drawn first, behind fuselage) ══════ -->
+            <g id="p-wing-r" class="ppart">
+              <!-- Main wing upper surface -->
+              <path d="M 390 228
+                       C 340 235, 220 272, 110 318
+                       L 96 310
+                       C 200 261, 325 224, 378 218 Z"
+                fill="url(#gWing)" stroke="#8898a8" stroke-width="1"/>
+              <!-- Wing lower surface (gives thickness) -->
+              <path d="M 390 228 L 378 218
+                       C 325 224, 200 261, 96 310
+                       L 100 318
+                       C 200 268, 330 230, 385 224 Z"
+                fill="#b8c0ca" stroke="#909aaa" stroke-width="0.8"/>
+              <!-- Far engine on wing -->
+              <!-- Engine pylon -->
+              <path d="M 280 268 L 288 252 L 302 252 L 295 268 Z"
+                fill="#c8d0d8" stroke="#a0a8b0" stroke-width="0.8"/>
+              <!-- Engine body -->
+              <ellipse cx="262" cy="274" rx="36" ry="14" fill="url(#gEng)" stroke="#6070808" stroke-width="1"/>
+              <rect x="226" y="262" width="72" height="20" rx="8" fill="url(#gEng)" stroke="#6a7280" stroke-width="1"/>
+              <ellipse cx="229" cy="272" rx="12" ry="14" fill="url(#gEngInlet)" stroke="#404850" stroke-width="1.2"/>
+              <ellipse cx="229" cy="272" rx="8" ry="10" fill="#1a1e24"/>
+              <ellipse cx="298" cy="270" rx="8" ry="10" fill="#282c32" stroke="#404850" stroke-width="0.8"/>
+              <!-- Far winglet -->
+              <path d="M 96 310 L 82 300 L 86 287 L 100 298 Z"
+                fill="#d4d8de" stroke="#9098a4" stroke-width="1"/>
+              <!-- Far flap lines -->
+              <path d="M 180 298 L 108 320" fill="none" stroke="#9898a8" stroke-width="0.7" stroke-dasharray="4,3"/>
+              <path d="M 230 282 L 155 307" fill="none" stroke="#9898a8" stroke-width="0.7" stroke-dasharray="4,3"/>
+              <!-- Nav light (green = left/port) -->
+              <circle cx="86" cy="290" r="4" fill="#22dd22" opacity="0.9"/>
+            </g>
+
+            <!-- ══════ FUSELAGE ══════ -->
+            <g id="p-fuselage" class="ppart">
+              <!-- Main cylindrical body — top curved surface -->
+              <path d="M 148 210
+                       Q 170 168 240 156
+                       L 840 156
+                       Q 905 160 932 180
+                       Q 950 194 952 214
+                       Q 950 234 932 244
+                       L 240 258
+                       Q 168 256 148 230 Z"
+                fill="url(#gFusTop)" stroke="#b0b8c4" stroke-width="1.2"/>
+
+              <!-- Lower belly (darker, 3D curvature) -->
+              <path d="M 148 220 Q 170 258 240 264
+                       L 840 264 Q 905 258 932 244
+                       L 840 258 L 240 258
+                       Q 168 256 148 230 Z"
+                fill="url(#gFusBot)" stroke="#9098a4" stroke-width="0.8"/>
+
+              <!-- Fuselage highlight — specular stripe along top -->
+              <path d="M 155 196 Q 490 188 940 206"
+                fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="3" stroke-linecap="round"/>
+              <path d="M 168 190 Q 490 182 920 200"
+                fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+
+              <!-- Fuselage lower centreline -->
+              <path d="M 152 220 Q 490 218 948 214"
+                fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+
+              <!-- WINDOWS — upper square windows, evenly spaced -->
+              <g fill="#1c2028">
+                <!-- Row of cabin windows -->
+                <rect x="268" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="294" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="320" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="346" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="372" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="398" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="424" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="450" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="476" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="502" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="528" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="554" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="580" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="606" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="632" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="658" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="684" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="710" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="736" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="762" y="177" width="13" height="16" rx="3.5"/>
+                <rect x="788" y="177" width="12" height="16" rx="3.5"/>
+                <rect x="812" y="178" width="12" height="15" rx="3.5"/>
+                <rect x="836" y="180" width="11" height="14" rx="3.5"/>
+                <rect x="858" y="182" width="10" height="13" rx="3.5"/>
+                <rect x="878" y="185" width="9" height="12" rx="3"/>
+              </g>
+              <!-- Window shine -->
+              <g fill="rgba(255,255,255,0.12)">
+                <rect x="269" y="178" width="5" height="5" rx="1"/>
+                <rect x="295" y="178" width="5" height="5" rx="1"/>
+                <rect x="321" y="178" width="5" height="5" rx="1"/>
+                <rect x="347" y="178" width="5" height="5" rx="1"/>
+                <rect x="373" y="178" width="5" height="5" rx="1"/>
+              </g>
+
+              <!-- Lower porthole dots -->
+              <g fill="#282e36" opacity="0.75">
+                <circle cx="278" cy="233" r="4"/>
+                <circle cx="304" cy="234" r="4"/>
+                <circle cx="330" cy="234" r="4"/>
+                <circle cx="356" cy="234" r="4"/>
+                <circle cx="382" cy="234" r="4"/>
+                <circle cx="408" cy="234" r="4"/>
+                <circle cx="434" cy="234" r="4"/>
+                <circle cx="460" cy="234" r="4"/>
+                <circle cx="486" cy="234" r="4"/>
+                <circle cx="512" cy="234" r="4"/>
+                <circle cx="538" cy="234" r="4"/>
+                <circle cx="564" cy="234" r="4"/>
+                <circle cx="590" cy="234" r="4"/>
+                <circle cx="616" cy="234" r="4"/>
+                <circle cx="642" cy="234" r="4"/>
+                <circle cx="668" cy="234" r="4"/>
+                <circle cx="694" cy="234" r="4"/>
+                <circle cx="720" cy="233" r="4"/>
+                <circle cx="746" cy="233" r="4"/>
+                <circle cx="772" cy="232" r="4"/>
+                <circle cx="798" cy="231" r="3.5"/>
+                <circle cx="822" cy="230" r="3.5"/>
+                <circle cx="846" cy="228" r="3"/>
+                <circle cx="868" cy="226" r="3"/>
+              </g>
+
+              <!-- Emergency exit markings -->
+              <rect x="374" y="197" width="20" height="5" rx="1.5" fill="rgba(200,30,30,0.75)"/>
+              <rect x="500" y="197" width="20" height="5" rx="1.5" fill="rgba(200,30,30,0.75)"/>
+
+              <!-- Rear service door -->
+              <path d="M 900 182 L 918 182 L 918 236 L 900 236 Z"
+                fill="none" stroke="#9098a4" stroke-width="1.2" stroke-dasharray="none"/>
+              <line x1="909" y1="182" x2="909" y2="236" stroke="#9098a4" stroke-width="0.8"/>
+
+              <!-- Wing-body fairing -->
+              <path d="M 370 228 L 600 228 L 600 264 L 370 264 Z"
+                fill="url(#gFusBot)" stroke="#8898a8" stroke-width="0.8" opacity="0.6"/>
+            </g>
+
+            <!-- ══════ COCKPIT / NOSE ══════ -->
+            <g id="p-cockpit" class="ppart">
+              <!-- Nose cone — tapered -->
+              <path d="M 148 210 Q 110 212 52 215 Q 110 222 148 230 Z"
+                fill="url(#gFusTop)" stroke="#a8b0bc" stroke-width="1.2"/>
+              <!-- Nose tip ellipse -->
+              <ellipse cx="56" cy="215" rx="12" ry="10" fill="#d8dce2" stroke="#a8b0bc" stroke-width="1"/>
+              <!-- Radome (rounded darker tip) -->
+              <path d="M 52 210 Q 38 215 52 220 Z" fill="#c0c4cc"/>
+
+              <!-- Windshield — 3-panel -->
+              <path d="M 148 208 L 196 175 L 232 174 L 242 156 L 210 160 L 172 188 Z"
+                fill="url(#gGlass)" stroke="#4878a0" stroke-width="1.4"/>
+              <path d="M 196 175 L 232 174 L 232 170 L 196 171 Z"
+                fill="url(#gGlass)" stroke="#3868908" stroke-width="0.8" opacity="0.7"/>
+              <!-- Windshield frame -->
+              <path d="M 196 175 L 214 175" stroke="#6080a0" stroke-width="1.5" fill="none"/>
+              <!-- Glass reflection -->
+              <path d="M 200 180 L 228 178 L 228 175 L 200 177Z"
+                fill="rgba(255,255,255,0.18)"/>
+              <!-- Capt window -->
+              <path d="M 158 203 L 184 183 L 196 183 L 174 205Z"
+                fill="url(#gGlass)" stroke="#4878a0" stroke-width="0.9"/>
+              <!-- FO window -->
+              <path d="M 148 209 L 164 198 L 175 198 L 162 210Z"
+                fill="url(#gGlass)" stroke="#4878a0" stroke-width="0.9"/>
+
+              <!-- Nose gear bay -->
+              <path d="M 164 230 L 196 258 L 212 260 L 182 234 Z"
+                fill="#c0c8d0" stroke="#a0a8b0" stroke-width="0.8"/>
+              <!-- Nose gear bay door lines -->
+              <line x1="174" y1="236" x2="200" y2="258" stroke="#a0a8b0" stroke-width="0.8"/>
+
+              <!-- Pitot probes -->
+              <line x1="54" y1="208" x2="28" y2="204" stroke="#888" stroke-width="1.8" stroke-linecap="round"/>
+              <line x1="54" y1="220" x2="32" y2="222" stroke="#888" stroke-width="1.2" stroke-linecap="round"/>
+              <!-- Nav light -->
+              <circle cx="58" cy="220" r="4" fill="#ee2222" opacity="0.9"/>
+              <!-- Static dischargers -->
+              <line x1="148" y1="168" x2="150" y2="155" stroke="#888" stroke-width="0.8"/>
+            </g>
+
+            <!-- ══════ NEAR WING (left/near wing) ══════ -->
+            <g id="p-wing-l" class="ppart">
+              <!-- Upper wing surface -->
+              <path d="M 388 220 L 596 220 L 596 260 L 388 260 Z"
+                fill="url(#gWingU)" stroke="#9098a4" stroke-width="1"/>
+              <!-- Swept leading edge section -->
+              <path d="M 388 220
+                       C 350 228, 250 280, 164 340
+                       L 156 330
+                       C 245 268, 348 218, 384 212 Z"
+                fill="url(#gWing)" stroke="#9098a4" stroke-width="1.2"/>
+              <!-- Wing lower surface -->
+              <path d="M 388 260 L 164 340 L 168 350
+                       C 255 288, 358 248, 396 268 L 596 268 L 596 260 Z"
+                fill="#b0b8c4" stroke="#8890a0" stroke-width="0.8"/>
+              <!-- Winglet -->
+              <path d="M 156 330 L 140 318 L 144 303 L 162 318 Z"
+                fill="#d8dce4" stroke="#9098a4" stroke-width="1.2"/>
+              <!-- Winglet upper stripe -->
+              <path d="M 140 318 L 144 303 L 147 307 L 143 320 Z"
+                fill="#1c1c1c"/>
+              <!-- Flap track fairings -->
+              <path d="M 435 260 L 430 268" stroke="#8890a0" stroke-width="3" stroke-linecap="round"/>
+              <path d="M 510 260 L 505 268" stroke="#8890a0" stroke-width="3" stroke-linecap="round"/>
+              <!-- Aileron hinge -->
+              <path d="M 174 334 L 160 340" stroke="#9098a4" stroke-width="0.8" stroke-dasharray="3,2"/>
+              <!-- Spoiler lines on upper surface -->
+              <line x1="348" y1="216" x2="280" y2="254" stroke="#9898a8" stroke-width="0.7" stroke-dasharray="5,4"/>
+              <!-- Nav light -->
+              <circle cx="144" cy="307" r="4.5" fill="#22dd22" opacity="0.9"/>
+            </g>
+
+            <!-- ══════ ENGINES (near / visible engine) ══════ -->
+            <g id="p-engines" class="ppart">
+              <!-- Pylon strut -->
+              <path d="M 358 228 L 366 210 L 382 210 L 374 228 Z"
+                fill="#c0c8d4" stroke="#9098a8" stroke-width="1"/>
+              <!-- Engine outer nacelle -->
+              <ellipse cx="338" cy="286" rx="42" ry="17" fill="url(#gEng)" stroke="#606870" stroke-width="1.2"/>
+              <!-- Engine body cylinder -->
+              <rect x="294" y="271" width="88" height="28" rx="10" fill="url(#gEng)" stroke="#606870" stroke-width="1.2"/>
+              <!-- Engine highlight -->
+              <path d="M 296 274 Q 338 268 380 274" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2"/>
+              <!-- Inlet face -->
+              <ellipse cx="296" cy="285" rx="14" ry="17" fill="url(#gEngInlet)" stroke="#404850" stroke-width="1.5"/>
+              <ellipse cx="296" cy="285" rx="9" ry="11" fill="#151820"/>
+              <!-- Fan blade hint -->
+              <line x1="296" y1="274" x2="296" y2="296" stroke="#303840" stroke-width="1" opacity="0.5"/>
+              <line x1="287" y1="285" x2="305" y2="285" stroke="#303840" stroke-width="1" opacity="0.5"/>
+              <!-- Exhaust nozzle -->
+              <ellipse cx="382" cy="283" rx="10" ry="14" fill="#202428" stroke="#404850" stroke-width="1"/>
+              <!-- Exhaust heat shimmer lines -->
+              <path d="M 390 278 Q 410 285 405 292" fill="none" stroke="#808880" stroke-width="0.8" opacity="0.5"/>
+              <!-- Engine cowl separation line -->
+              <path d="M 296 270 Q 338 264 380 270" fill="none" stroke="#8090a0" stroke-width="0.8"/>
+              <!-- Thrust reverser bucket hint -->
+              <path d="M 360 270 L 368 272 L 368 298 L 360 300 Z"
+                fill="rgba(0,0,0,0.08)" stroke="#606870" stroke-width="0.6"/>
+            </g>
+
+            <!-- ══════ TAIL ══════ -->
+            <g id="p-tail" class="ppart">
+              <!-- Vertical stabiliser — dark livery like the reference image -->
+              <path d="M 900 158 L 862 78 L 822 68 L 835 156 Z"
+                fill="url(#gTailV)" stroke="#1a1a1a" stroke-width="1.2"/>
+              <!-- Vertical stab leading edge highlight -->
+              <path d="M 862 78 L 822 68 L 824 75 L 862 86 Z"
+                fill="rgba(255,255,255,0.07)"/>
+              <!-- Vertical stab trailing edge subtle detail -->
+              <path d="M 900 158 L 898 152 L 836 152 L 835 156 Z"
+                fill="rgba(255,255,255,0.04)"/>
+
+              <!-- APU exhaust (rear) -->
+              <ellipse cx="948" cy="224" rx="6" ry="5" fill="#202428" stroke="#383c42" stroke-width="1"/>
+
+              <!-- Near horizontal stabiliser -->
+              <path d="M 908 228 L 924 250 L 828 268 L 830 246 Z"
+                fill="url(#gWing)" stroke="#9098a4" stroke-width="1.2"/>
+              <!-- H-stab upper surface highlight -->
+              <path d="M 910 230 L 920 242 L 840 258" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.2"/>
+              <!-- H-stab lower surface -->
+              <path d="M 924 250 L 936 248 L 842 274 L 828 268 Z"
+                fill="#b0b8c4" stroke="#8890a0" stroke-width="0.8"/>
+              <!-- H-stab tip -->
+              <path d="M 924 250 L 934 246 L 938 236 L 928 242 Z"
+                fill="#ccd0d8" stroke="#9098a4" stroke-width="0.8"/>
+              <!-- Far horizontal stab -->
+              <path d="M 896 194 L 910 175 L 826 156 L 828 168 Z"
+                fill="#c8ccd4" stroke="#9098a4" stroke-width="0.8"/>
+              <!-- Tail nav light -->
+              <circle cx="822" cy="68" r="4" fill="#f8f8f8" opacity="0.9"/>
+              <!-- Tail stripe accent -->
+              <path d="M 835 156 L 822 68 L 830 67 L 844 156 Z"
+                fill="rgba(20,40,100,0.2)"/>
+            </g>
+
+            <!-- ══════ LANDING GEAR ══════ -->
+            <g id="p-landing-gear" class="ppart">
+              <!-- Nose gear doors -->
+              <path d="M 166 258 L 210 258 L 208 274 L 168 274 Z"
+                fill="#c8d0d8" stroke="#9098a4" stroke-width="0.9"/>
+              <!-- Nose gear strut -->
+              <rect x="182" y="270" width="7" height="42" rx="2" fill="url(#gStrut)" stroke="#8890a0" stroke-width="0.8"/>
+              <!-- Nose gear cross piece -->
+              <rect x="172" y="306" width="28" height="5" rx="2" fill="url(#gStrut)" stroke="#8890a0" stroke-width="0.8"/>
+              <!-- Nose wheels (2) -->
+              <ellipse cx="177" cy="320" rx="11" ry="7" fill="url(#gTire)" stroke="#282c30" stroke-width="1.2"/>
+              <ellipse cx="195" cy="322" rx="11" ry="7" fill="url(#gTire)" stroke="#282c30" stroke-width="1.2"/>
+              <!-- Nose wheel hub -->
+              <ellipse cx="177" cy="320" rx="4" ry="3" fill="#606870"/>
+              <ellipse cx="195" cy="322" rx="4" ry="3" fill="#606870"/>
+
+              <!-- Main gear doors -->
+              <path d="M 452 262 L 500 262 L 498 278 L 454 278 Z"
+                fill="#c8d0d8" stroke="#9098a4" stroke-width="0.9"/>
+              <path d="M 560 262 L 608 262 L 606 278 L 562 278 Z"
+                fill="#c8d0d8" stroke="#9098a4" stroke-width="0.9"/>
+
+              <!-- Main gear strut (front bogie) -->
+              <rect x="470" y="272" width="8" height="44" rx="2" fill="url(#gStrut)" stroke="#8890a0" stroke-width="0.8"/>
+              <rect x="455" y="308" width="36" height="6" rx="2" fill="url(#gStrut)" stroke="#8890a0" stroke-width="0.8"/>
+              <!-- Main gear wheels (4 wheel bogie) -->
+              <ellipse cx="458" cy="324" rx="13" ry="8" fill="url(#gTire)" stroke="#282c30" stroke-width="1.2"/>
+              <ellipse cx="476" cy="328" rx="13" ry="8" fill="url(#gTire)" stroke="#282c30" stroke-width="1.2"/>
+              <ellipse cx="458" cy="338" rx="13" ry="8" fill="url(#gTire)" stroke="#282c30" stroke-width="1.2"/>
+              <ellipse cx="476" cy="342" rx="13" ry="8" fill="url(#gTire)" stroke="#282c30" stroke-width="1.2"/>
+              <!-- Main gear hub caps -->
+              <ellipse cx="458" cy="324" rx="5" ry="3.5" fill="#606870"/>
+              <ellipse cx="476" cy="328" rx="5" ry="3.5" fill="#606870"/>
+
+              <!-- Rear main gear strut -->
+              <rect x="578" y="272" width="8" height="44" rx="2" fill="url(#gStrut)" stroke="#8890a0" stroke-width="0.8"/>
+              <rect x="563" y="308" width="36" height="6" rx="2" fill="url(#gStrut)" stroke="#8890a0" stroke-width="0.8"/>
+              <ellipse cx="566" cy="324" rx="13" ry="8" fill="url(#gTire)" stroke="#282c30" stroke-width="1.2"/>
+              <ellipse cx="584" cy="328" rx="13" ry="8" fill="url(#gTire)" stroke="#282c30" stroke-width="1.2"/>
+              <ellipse cx="566" cy="338" rx="13" ry="8" fill="url(#gTire)" stroke="#282c30" stroke-width="1.2"/>
+              <ellipse cx="584" cy="342" rx="13" ry="8" fill="url(#gTire)" stroke="#282c30" stroke-width="1.2"/>
+              <ellipse cx="566" cy="324" rx="5" ry="3.5" fill="#606870"/>
+              <ellipse cx="584" cy="328" rx="5" ry="3.5" fill="#606870"/>
+            </g>
+
+          </g><!-- /drop shadow -->
+
+          <!-- ══ DIMENSION ANNOTATIONS ══ -->
+          <!-- Length -->
+          <line x1="50" y1="378" x2="952" y2="378" class="dim-line"/>
+          <line x1="50" y1="373" x2="50" y2="383" class="dim-line"/>
+          <line x1="952" y1="373" x2="952" y2="383" class="dim-line"/>
+          <text x="500" y="394" text-anchor="middle" class="dim-text">38,020mm  ·  TOL ±0.5</text>
+          <!-- Height -->
+          <line x1="22" y1="68" x2="22" y2="360" class="dim-line"/>
+          <line x1="17" y1="68" x2="27" y2="68" class="dim-line"/>
+          <line x1="17" y1="360" x2="27" y2="360" class="dim-line"/>
+          <text x="8" y="218" text-anchor="middle" class="dim-text" transform="rotate(-90,8,218)">12,500mm</text>
+          <!-- Wingspan callout -->
+          <line x1="82" y1="296" x2="82" y2="358" class="dim-line" stroke-dasharray="4,3"/>
+          <text x="50" y="292" class="dim-text" text-anchor="middle" font-size="9">Wing span</text>
+          <text x="50" y="302" class="dim-text" text-anchor="middle" font-size="9">35,790mm</text>
+
+          <!-- Part name labels (shown on highlight) -->
+          <text id="lbl-fuselage"   x="560" y="148" text-anchor="middle" font-family="Segoe UI,Tahoma" font-size="11" fill="#0067b8" font-weight="700" opacity="0">FUSELAGE</text>
+          <text id="lbl-cockpit"    x="140" y="148" text-anchor="middle" font-family="Segoe UI,Tahoma" font-size="11" fill="#0067b8" font-weight="700" opacity="0">COCKPIT / NOSE</text>
+          <text id="lbl-wing-l"     x="240" y="370" text-anchor="middle" font-family="Segoe UI,Tahoma" font-size="11" fill="#0067b8" font-weight="700" opacity="0">WING (NEAR)</text>
+          <text id="lbl-wing-r"     x="190" y="258" text-anchor="middle" font-family="Segoe UI,Tahoma" font-size="11" fill="#0067b8" font-weight="700" opacity="0">WING (FAR)</text>
+          <text id="lbl-engines"    x="338" y="256" text-anchor="middle" font-family="Segoe UI,Tahoma" font-size="11" fill="#0067b8" font-weight="700" opacity="0">ENGINES</text>
+          <text id="lbl-tail"       x="874" y="58" text-anchor="middle"  font-family="Segoe UI,Tahoma" font-size="11" fill="#0067b8" font-weight="700" opacity="0">TAIL ASSEMBLY</text>
+          <text id="lbl-landing-gear" x="490" y="365" text-anchor="middle" font-family="Segoe UI,Tahoma" font-size="11" fill="#0067b8" font-weight="700" opacity="0">LANDING GEAR</text>
+        </svg>
+      </div><!-- /plane-area -->
+
+      <!-- Part callout labels (HTML overlay) -->
+      <div class="part-callout" id="cal-fuselage"    style="top:22%;left:45%">Fuselage</div>
+      <div class="part-callout" id="cal-cockpit"     style="top:25%;left:8%">Cockpit / Nose</div>
+      <div class="part-callout" id="cal-wing-l"      style="top:72%;left:18%">Wing (Near)</div>
+      <div class="part-callout" id="cal-wing-r"      style="top:55%;left:12%">Wing (Far)</div>
+      <div class="part-callout" id="cal-engines"     style="top:62%;left:24%">Engines</div>
+      <div class="part-callout" id="cal-tail"        style="top:14%;right:8%">Tail Assembly</div>
+      <div class="part-callout" id="cal-landing-gear" style="top:72%;left:42%">Landing Gear</div>
+
+      <!-- INFO WINDOW -->
+      <div id="iw">
+        <div id="iw-tb">
+          <span id="iw-icon">⚙</span>
+          <span id="iw-title">PropertyManager</span>
+          <div class="pm-hdr-btn">?</div>
+          <div class="pm-hdr-btn x" onclick="closeIW()">✕</div>
+        </div>
+        <div id="iw-actions">
+          <div class="pm-action pm-ok">✓ OK</div>
+          <div class="pm-action pm-cancel" onclick="closeIW()">✕ Cancel</div>
+        </div>
+        <div id="iw-body"></div>
+      </div>
+
+    </div><!-- /viewport -->
+  </div><!-- /main -->
+
+  <!-- STATUS BAR -->
+  <div id="statusbar">
+    <div class="sb-seg"><div class="sb-dot sb-ok"></div>No errors</div>
+    <div class="sb-seg"><div class="sb-dot sb-info"></div>Fully Defined</div>
+    <div class="sb-seg" id="sb-sel">No component selected</div>
+    <div class="sb-seg" style="margin-left:auto;border-right:none;" id="sb-r"></div>
+  </div>
+
+</div><!-- /app -->
+
+<script>
+/* ══ SPLASH ══ */
+const SPLASH_MSGS=['Initialising geometry kernel...','Loading assembly tree...','Resolving references...','Applying visual styles...','Rebuilding model...','Assembly loaded — ready.'];
+let sp=0,si=0;
+const spf=document.getElementById('sp-fill'),
+      spm=document.getElementById('sp-msg'),
+      spPct=document.getElementById('sp-pct');
+const spt=setInterval(()=>{
+  sp+=Math.random()*16+6;
+  if(sp>=100){sp=100;clearInterval(spt);doneSplash();}
+  spf.style.width=sp+'%';
+  spPct.textContent=Math.round(sp)+'%';
+  if(si<SPLASH_MSGS.length) spm.textContent=SPLASH_MSGS[si++];
+},200);
+function doneSplash(){
+  spm.textContent='Assembly loaded — ready.';
+  spPct.textContent='100%';
+  setTimeout(()=>{document.getElementById('splash').classList.add('gone');},500);
+}
+
+/* ══ CLOCK ══ */
+setInterval(()=>{
+  document.getElementById('sb-r').textContent=
+    new Date().toLocaleTimeString('en-GB',{hour12:false});
+},1000);
+
+/* ══ BRANCH TOGGLE ══ */
+function toggleB(id){
+  document.getElementById('tc-'+id).classList.toggle('open');
+  document.getElementById('arr-'+id).classList.toggle('open');
+}
+
+/* ══ ALL PARTS ══ */
+const PARTS=['fuselage','cockpit','wing-l','wing-r','engines','tail','landing-gear'];
+
+/* ══ HIGHLIGHT ══ */
+function highlight(partId){
+  // hide all callouts
+  document.querySelectorAll('.part-callout').forEach(c=>c.classList.remove('show'));
+  PARTS.forEach(p=>{
+    const el=document.getElementById('p-'+p);
+    el.classList.remove('hl','dim');
+    if(partId){
+      if(p===partId){
+        el.classList.add('hl');
+        const cal=document.getElementById('cal-'+p);
+        if(cal) cal.classList.add('show');
+      } else {
+        el.classList.add('dim');
+      }
+    }
+  });
+}
+
+function clearHL(){
+  highlight(null);
+  document.getElementById('iw').classList.remove('show');
+  document.getElementById('hud-mode').textContent='*Trimetric — Shaded with Edges';
+  document.getElementById('sb-sel').textContent='No component selected';
+  document.querySelectorAll('.ti').forEach(e=>e.classList.remove('on'));
+}
+
+/* ══ PM SECTION TOGGLE ══ */
+function toggleSec(hdr){
+  const body=hdr.nextElementSibling;
+  const arrow=hdr.querySelector('.sec-arrow');
+  body.style.display=body.style.display==='none'?'block':'none';
+  if(arrow) arrow.classList.toggle('open',body.style.display==='block');
+}
+
+/* ══ CONTENT DATA (all real resume info) ══ */
+function pmSec(title,icon,bodyHTML,openByDefault=true){
+  return `<div class="pm-sec">
+    <div class="pm-sec-hdr" onclick="toggleSec(this)">
+      <span class="sec-arrow ${openByDefault?'open':''}">▶</span>
+      <span>${icon}</span> ${title}
+    </div>
+    <div class="pm-sec-body" style="display:${openByDefault?'block':'none'}">${bodyHTML}</div>
+  </div>`;
+}
+
+const C={
+  about:{t:'Kavish Mistry',ic:'👤',part:'fuselage',body:
+    pmSec('Overview','👤',`
+      <p class="pm-p">Mechanical Engineering student at the University of Illinois Urbana-Champaign. Passionate about aerospace, systems design, and computational engineering.</p>
+      <div class="pm-row"><span class="pm-k">📍 Location</span><span class="pm-v">Urbana, Illinois / Mumbai</span></div>
+      <div class="pm-row"><span class="pm-k">📧 Email</span><span class="pm-v"><a class="pm-link">kavishm2@illinois.edu</a></span></div>
+      <div class="pm-row"><span class="pm-k">📞 Phone</span><span class="pm-v">(279) 241-3605</span></div>
+      <div class="pm-row"><span class="pm-k">💼 LinkedIn</span><span class="pm-v"><a class="pm-link">linkedin.com/in/kavishjmistry</a></span></div>
+    `)+
+    pmSec('Interests & Awards','🏆',`
+      <div class="pm-row"><span class="pm-k">🥇 Awards</span><span class="pm-v">2× International Champion, 5× National Champion</span></div>
+      <div class="pm-row"><span class="pm-k">🎥 Hobbies</span><span class="pm-v">Video Editing (Premiere Pro)</span></div>
+      <div class="pm-row"><span class="pm-k">🥊 Sport</span><span class="pm-v">Karate, Boxing, Soccer, Running</span></div>
+      <div class="pm-row"><span class="pm-k">🌐 Languages</span><span class="pm-v">English · Hindi · Gujarati</span></div>
+    `,false)
+  },
+  education:{t:'Education',ic:'🎓',part:'cockpit',body:
+    pmSec('Degree','🎓',`
+      <div class="pm-row"><span class="pm-k">🏛 University</span><span class="pm-v">University of Illinois Urbana-Champaign</span></div>
+      <div class="pm-row"><span class="pm-k">📜 Degree</span><span class="pm-v">B.S. Mechanical Engineering</span></div>
+      <div class="pm-row"><span class="pm-k">📚 Minor</span><span class="pm-v">Business</span></div>
+      <div class="pm-row"><span class="pm-k">📈 GPA</span><span class="pm-v">3.5 / 4.0</span></div>
+      <div class="pm-row"><span class="pm-k">📅 Timeline</span><span class="pm-v">May 2024 – May 2028</span></div>
+    `)+
+    pmSec('Coursework','📚',`
+      <div style="margin-bottom:4px"><span class="tag">CAD & DFM/DFA</span><span class="tag">Thermodynamics</span><span class="tag">Statics</span></div>
+      <div style="margin-bottom:4px"><span class="tag">Dynamics</span><span class="tag">Solid Mechanics</span><span class="tag">Diff. Equations</span></div>
+      <div><span class="tag">Linear Algebra</span></div>
+    `,false)
+  },
+  'edu-uiuc':{t:'UIUC — B.S. Mechanical Engineering',ic:'🏛',part:'cockpit',body:
+    pmSec('Degree Details','🏛',`
+      <div class="pm-row"><span class="pm-k">🏛 University</span><span class="pm-v">Univ. of Illinois Urbana-Champaign</span></div>
+      <div class="pm-row"><span class="pm-k">📜 Program</span><span class="pm-v">B.S. Mechanical Engineering</span></div>
+      <div class="pm-row"><span class="pm-k">📚 Minor</span><span class="pm-v">Business</span></div>
+      <div class="pm-row"><span class="pm-k">📈 GPA</span><span class="pm-v">3.5 / 4.0</span></div>
+      <div class="pm-row"><span class="pm-k">📅 Period</span><span class="pm-v">May 2024 – May 2028</span></div>
+    `)
+  },
+  exp:{t:'Experience',ic:'🏢',part:'engines',body:
+    pmSec('Summary','🏢',`
+      <div class="pm-row"><span class="pm-k">2025</span><span class="pm-v">Research Intern (Climate/Energy)</span></div>
+      <div class="pm-row"><span class="pm-k">2024–</span><span class="pm-v">Illinois Business Consulting</span></div>
+      <div class="pm-row"><span class="pm-k">2023</span><span class="pm-v">Biker's Pad — Trainee Engineer</span></div>
+      <div class="pm-row"><span class="pm-k">2024</span><span class="pm-v">Zero2One — Fall Cohort</span></div>
+    `)
+  },
+  'exp-research':{t:'Research Intern',ic:'🔬',part:'engines',body:
+    pmSec('Research Internship','🔬',`
+      <div class="pm-row"><span class="pm-k">📅 Period</span><span class="pm-v">June 2025 – October 2025</span></div>
+      <p class="pm-p">Analysed the impact of extreme rainfall on renewable energy generation using ERA5 reanalysis data.</p>
+      <div class="pm-row"><span class="pm-k">📊 Dataset</span><span class="pm-v">35 years ERA5 NetCDF data</span></div>
+      <div class="pm-row"><span class="pm-k">🖥 HPC</span><span class="pm-v">SLURM job scheduling, WRF simulations</span></div>
+      <div class="pm-row"><span class="pm-k">🌀 Focus</span><span class="pm-v">Wind loading & mechanical performance during extreme weather</span></div>
+    `)+
+    pmSec('Tools Used','🛠',`
+      <span class="tag">Python</span><span class="tag">xarray</span><span class="tag">wrf-python</span>
+      <span class="tag">ERA5 NetCDF</span><span class="tag">HPC / SLURM</span><span class="tag">WRF Modelling</span>
+    `,false)
+  },
+  'exp-ibc':{t:'Illinois Business Consulting',ic:'📊',part:'cockpit',body:
+    pmSec('Consultant','📊',`
+      <div class="pm-row"><span class="pm-k">🏢 Organisation</span><span class="pm-v">Illinois Business Consulting</span></div>
+      <div class="pm-row"><span class="pm-k">📍 Location</span><span class="pm-v">Urbana, Illinois</span></div>
+      <div class="pm-row"><span class="pm-k">🎯 Role</span><span class="pm-v">Consultant (New)</span></div>
+      <p class="pm-p">Providing consulting services to clients across business strategy and operations. Developing analytical and client communication skills within a structured consulting framework.</p>
+    `)+
+    pmSec('Skills Applied','🛠',`
+      <span class="tag">Business Strategy</span><span class="tag">Client Communication</span>
+      <span class="tag">Analytical Thinking</span><span class="tag">Teamwork</span>
+    `,false)
+  },
+  'exp-bikers':{t:"Biker's Pad — Trainee",ic:'🔧',part:'engines',body:
+    pmSec('Trainee Engineer','🔧',`
+      <div class="pm-row"><span class="pm-k">📅 Period</span><span class="pm-v">July 2023</span></div>
+      <div class="pm-row"><span class="pm-k">📍 Location</span><span class="pm-v">Mumbai, Maharashtra</span></div>
+      <p class="pm-p">Collaborated with engineers to repair and analyse bike engines, including drive chains, fuel, and exhaust systems. Gained hands-on exposure to drivetrain mechanics and combustion performance.</p>
+      <div class="pm-row"><span class="pm-k">⚙ Focus</span><span class="pm-v">Engine disassembly, fuel-air optimisation, gear ratios</span></div>
+    `)+
+    pmSec('Skills Applied','🛠',`
+      <span class="tag">Engine Analysis</span><span class="tag">Drivetrain</span>
+      <span class="tag">Combustion</span><span class="tag">Mechanical Disassembly</span>
+    `,false)
+  },
+  'exp-zero2one':{t:'Zero2One — Fall Cohort',ic:'🚀',part:'fuselage',body:
+    pmSec('Zero2One','🚀',`
+      <div class="pm-row"><span class="pm-k">📅 Period</span><span class="pm-v">September 2024 – December 2024</span></div>
+      <div class="pm-row"><span class="pm-k">📍 Location</span><span class="pm-v">Urbana, Illinois</span></div>
+      <p class="pm-p">Analysed startup business models and investment strategies in a 10-week cohort. Developed presentation and evaluation skills through peer-led discussions.</p>
+    `)
+  },
+  projects:{t:'Projects',ic:'📁',part:'fuselage',body:
+    pmSec('Projects Overview','📁',`
+      <div class="pm-row"><span class="pm-k">🛸 SSDC</span><span class="pm-v">Team Ignite — Space Settlement Design</span></div>
+      <div class="pm-row"><span class="pm-k">🌑 Lunabotics</span><span class="pm-v">IRIS — Lunar Rover Drivetrain</span></div>
+    `)
+  },
+  'proj-ssdc':{t:'Team Ignite — SSDC',ic:'🛸',part:'wing-l',body:
+    pmSec('Space Settlement Design Competition','🛸',`
+      <div class="pm-row"><span class="pm-k">📅 Period</span><span class="pm-v">Dec 2022 – April 2024</span></div>
+      <div class="pm-row"><span class="pm-k">🎯 Role</span><span class="pm-v">Member & Interim Head of Operations</span></div>
+      <div class="pm-row"><span class="pm-k">📍 Org</span><span class="pm-v">Team Ignite, Mumbai</span></div>
+      <p class="pm-p">Collaborated to design a comprehensive space settlement for future human habitation, simulating aerospace company operations. Produced a 40-page proposal reviewed by NASA professionals.</p>
+      <div class="pm-row"><span class="pm-k">🏆 Result</span><span class="pm-v">Presented to NASA & aerospace industry professionals</span></div>
+    `)+
+    pmSec('Contributions','🔩',`
+      <span class="tag">Jigs & Fixtures</span><span class="tag">Energy Systems</span>
+      <span class="tag">Docking Mechanisms</span><span class="tag">Fire Prevention</span>
+      <span class="tag">Internal Transport</span><span class="tag">Life Support</span>
+      <span class="tag">Systems Thinking</span><span class="tag">CAD</span>
+    `,false)
+  },
+  'proj-lunabotics':{t:'IRIS Lunabotics',ic:'🌑',part:'landing-gear',body:
+    pmSec('Illinois Robotics In Space — Lunabotics','🌑',`
+      <div class="pm-row"><span class="pm-k">📅 Period</span><span class="pm-v">September 2025 – Present</span></div>
+      <div class="pm-row"><span class="pm-k">📍 Location</span><span class="pm-v">Urbana, Illinois</span></div>
+      <div class="pm-row"><span class="pm-k">🎯 Role</span><span class="pm-v">Mechanical Member — Drivetrain</span></div>
+      <p class="pm-p">Designing and developing mechanical components for the team's lunar rover. Creating and refining CAD models to support fabrication and assembly. Collaborating on rover design reviews and mechanical integration.</p>
+    `)+
+    pmSec('Tools Used','🛠',`
+      <span class="tag">CAD</span><span class="tag">Drivetrain Design</span>
+      <span class="tag">Mechanical Integration</span><span class="tag">Design Reviews</span>
+    `,false)
+  },
+  skills:{t:'Skills & Tools',ic:'⚙',part:'wing-l',body:
+    pmSec('CAD Software','📐',`
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Fusion 360</span><span class="sk-pct">85%</span></div><div class="sk-bar"><div class="sk-fill" style="width:85%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">SolidWorks</span><span class="sk-pct">70%</span></div><div class="sk-bar"><div class="sk-fill" style="width:70%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">PTC Creo</span><span class="sk-pct">45%</span></div><div class="sk-bar"><div class="sk-fill" style="width:45%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Eng Drawings / GD&T</span><span class="sk-pct">80%</span></div><div class="sk-bar"><div class="sk-fill" style="width:80%"></div></div></div>
+    `)+
+    pmSec('Computation','💻',`
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Python</span><span class="sk-pct">82%</span></div><div class="sk-bar"><div class="sk-fill" style="width:82%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">MATLAB</span><span class="sk-pct">75%</span></div><div class="sk-bar"><div class="sk-fill" style="width:75%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">HPC / SLURM</span><span class="sk-pct">65%</span></div><div class="sk-bar"><div class="sk-fill" style="width:65%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">WRF Modelling</span><span class="sk-pct">60%</span></div><div class="sk-bar"><div class="sk-fill" style="width:60%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">NetCDF / xarray</span><span class="sk-pct">70%</span></div><div class="sk-bar"><div class="sk-fill" style="width:70%"></div></div></div>
+    `,false)
+  },
+  'skills-cad':{t:'CAD Software',ic:'📐',part:'wing-l',body:
+    pmSec('CAD Skills','📐',`
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Fusion 360</span><span class="sk-pct">85%</span></div><div class="sk-bar"><div class="sk-fill" style="width:85%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">SolidWorks (in progress)</span><span class="sk-pct">70%</span></div><div class="sk-bar"><div class="sk-fill" style="width:70%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">PTC Creo (in progress)</span><span class="sk-pct">45%</span></div><div class="sk-bar"><div class="sk-fill" style="width:45%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Engineering Drawings / GD&T</span><span class="sk-pct">80%</span></div><div class="sk-bar"><div class="sk-fill" style="width:80%"></div></div></div>
+    `)
+  },
+  'skills-comp':{t:'Computation',ic:'💻',part:'engines',body:
+    pmSec('Computation & Programming','💻',`
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Python</span><span class="sk-pct">82%</span></div><div class="sk-bar"><div class="sk-fill" style="width:82%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">MATLAB</span><span class="sk-pct">75%</span></div><div class="sk-bar"><div class="sk-fill" style="width:75%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">HPC / SLURM</span><span class="sk-pct">65%</span></div><div class="sk-bar"><div class="sk-fill" style="width:65%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">WRF Modelling</span><span class="sk-pct">60%</span></div><div class="sk-bar"><div class="sk-fill" style="width:60%"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Data Analysis / NetCDF / xarray</span><span class="sk-pct">70%</span></div><div class="sk-bar"><div class="sk-fill" style="width:70%"></div></div></div>
+    `)
+  },
+  'skills-courses':{t:'Coursework',ic:'📚',part:'fuselage',body:
+    pmSec('Completed Coursework','📚',`
+      <span class="tag">CAD & DFM/DFA</span>
+      <span class="tag">Thermodynamics</span>
+      <span class="tag">Statics</span>
+      <span class="tag">Dynamics</span>
+      <span class="tag">Solid Mechanics</span>
+      <span class="tag">Differential Equations</span>
+      <span class="tag">Linear Algebra</span>
+    `)
+  },
+  contact:{t:'Contact',ic:'📬',part:'tail',body:
+    pmSec('Get In Touch','📬',`
+      <div class="pm-row"><span class="pm-k">📧 Email</span><span class="pm-v"><a class="pm-link">kavishm2@illinois.edu</a></span></div>
+      <div class="pm-row"><span class="pm-k">📞 Phone</span><span class="pm-v">(279) 241-3605</span></div>
+      <div class="pm-row"><span class="pm-k">💼 LinkedIn</span><span class="pm-v"><a class="pm-link">linkedin.com/in/kavishjmistry</a></span></div>
+      <div class="pm-row"><span class="pm-k">📍 Illinois</span><span class="pm-v">Urbana, Illinois</span></div>
+      <div class="pm-row"><span class="pm-k">📍 India</span><span class="pm-v">Mumbai, Maharashtra</span></div>
+      <p class="pm-p" style="margin-top:8px">Open to internships, research roles, and engineering collaborations in mechanical & aerospace engineering.</p>
+    `)
+  }
+};
+
+/* ══ OPEN SECTION ══ */
+function openSec(cid, fallbackPart){
+  document.querySelectorAll('.ti').forEach(e=>e.classList.remove('on'));
+  const el=document.getElementById('ti-'+cid);
+  if(el) el.classList.add('on');
+
+  const d=C[cid]; if(!d) return;
+  const part=d.part||fallbackPart;
+
+  highlight(part);
+
+  document.getElementById('iw-icon').textContent=d.ic||'⚙';
+  document.getElementById('iw-title').textContent=d.t;
+  document.getElementById('iw-body').innerHTML=d.body;
+  document.getElementById('iw').classList.add('show');
+  document.getElementById('sb-sel').textContent='Selected: '+d.t+(part?' → <'+part+'>':'');
+  document.getElementById('hud-mode').textContent='*Highlighted: '+part+'  —  '+d.t;
+}
+
+/* ══ CLOSE IW ══ */
+function closeIW(){
+  document.getElementById('iw').classList.remove('show');
+  clearHL();
+}
+
+/* ══ RUN SIM ══ */
+function runSim(){
+  const steps=['Meshing geometry...','Setting boundary conditions...','Running Navier-Stokes solver...','Post-processing results...','Motion study complete ✓'];
+  let i=0;
+  const orig=document.getElementById('hud-mode').textContent;
+  const iv=setInterval(()=>{
+    document.getElementById('hud-mode').textContent=steps[i++];
+    if(i>=steps.length){clearInterval(iv);setTimeout(()=>{document.getElementById('hud-mode').textContent=orig;},2500);}
+  },700);
+}
+
+/* ══ EDGE TOGGLE ══ */
+let edgesOn=true;
+function toggleEdges(){
+  edgesOn=!edgesOn;
+  document.getElementById('plane-svg').style.opacity=edgesOn?'1':'0.88';
+  document.getElementById('hud-edges').textContent=edgesOn?'⊡ Edges On':'⊡ Edges Off';
+}
+
+/* ══ DRAG IW ══ */
+const iw=document.getElementById('iw'),tb=document.getElementById('iw-tb');
+let drag=false,ox=0,oy=0,wx=0,wy=0;
+tb.addEventListener('mousedown',e=>{drag=true;ox=e.clientX;oy=e.clientY;wx=iw.offsetLeft;wy=iw.offsetTop;});
+document.addEventListener('mousemove',e=>{
+  if(!drag)return;
+  iw.style.left=Math.max(0,wx+(e.clientX-ox))+'px';
+  iw.style.top=Math.max(0,wy+(e.clientY-oy))+'px';
+});
+document.addEventListener('mouseup',()=>drag=false);
+</script>
+</body>
+</html>
